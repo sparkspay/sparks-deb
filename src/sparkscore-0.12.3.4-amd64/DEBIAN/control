@@ -1,0 +1,10 @@
+Package:sparkscore
+Version:0.12.3.4
+Section: custom
+Priority:optional
+Architecture:amd64
+Depends:  curl, virtualenv, python-pip
+Essential:no
+Installed-Size:2040
+Maintainer:m0r4k
+Description:sparkscore client
