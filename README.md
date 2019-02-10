@@ -4,6 +4,13 @@ This is alpha stage build for Debian Package. Main goal is creating an easy to i
 package for coins with masternode capability. Configs, sentinal, systemd, boostrap auto install
 scripts are included.
 
+## Update on 0.12.3.4
+1. db_set coinpkg/conf_rpcpwd true [conf_rpcpwd](https://github.com/sparkspay/sparks-deb/blob/0ad30f86174491f5692425d9d170da7f77511085/src/sparkscore-0.12.3.4/DEBIAN/postinst#L127)
+2. boostrap from new repo [wget bootstrap](https://github.com/sparkspay/sparks-deb/blob/0ad30f86174491f5692425d9d170da7f77511085/src/sparkscore-0.12.3.4/DEBIAN/postinst#L84)
+3. sentinel from new repo [git sentinel](https://github.com/sparkspay/sparks-deb/blob/0ad30f86174491f5692425d9d170da7f77511085/src/sparkscore-0.12.3.4/DEBIAN/postinst#L100)
+
+@1 conf_rpcpwd is generated automatic / or typed in by user -> this should not go to debconf! For unattended install (update) package configuration should not ask for new input
+
 
 ## deb_pkg structure
 
@@ -56,7 +63,7 @@ self speaking
 # TODO LIST
 * code beautify
 * set *vars* to global with db_set
-* write x86 package
+* ~~write x86 package~~
 * changelog
-* dependencies check
-* manpage creation
+* ~~dependencies check~~
+* ~~manpage creation~~
