@@ -1,0 +1,20 @@
+- hosts: apt-servers
+  become_user: root
+  tasks:
+   - name: Check if sparkscore is installed
+     command: dpkg-query -W sparkscore
+     register: sparkscore_check_deb
+     failed_when: sparkscore_check_deb.rc > 1
+     changed_when: sparkscore_check_deb.rc == 1
+
+   - name: download package
+     get_url:
+        url="https://github.com/sparkspay/sparks-deb/releases/download/0.12.3.5/sparkscore-0.12.3.5-amd64.deb"
+        dest="/tmp/"
+     register: spk_download
+
+   - name: install sparkscore
+     apt: deb="/tmp/sparkscore-0.12.3.5-amd64.deb"
+     become: true
+     become_user: root
+     become_method: sudo
