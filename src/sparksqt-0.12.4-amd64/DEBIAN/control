@@ -1,0 +1,10 @@
+Package:sparksqt
+Version:0.12.4
+Section: custom
+Priority:optional
+Architecture:amd64
+Depends:sparkscore
+Essential:no
+Installed-Size:2040
+Maintainer:m0r4k
+Description:sparkscore QT client
