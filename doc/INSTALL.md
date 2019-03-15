@@ -78,9 +78,11 @@ this works you are fine to continue.
 ## Installation process
 ```` bash
 root@server:~# apt install git ufw fail2ban
-root@server:~# git clone https://m0r4k@bitbucket.org/m0r4k/sparky.git
-root@server:~# cd sparky
-root@server:~# dpkg -i sparkscore-0.12.3.2-amd64.deb
+
+## download release from ##
+https://github.com/sparkspay/sparks-deb/releases
+
+root@server:~# dpkg -i sparkscore-<version>.deb
 
 #### ERRORS WILL APEAR DON'T PANIK -> -f install will FIX deps ####
 
