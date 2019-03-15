@@ -37,8 +37,8 @@ root@server:~# systemctl enable sparksd
 ### MAINTAINER of SPARKS
 Maintainer = http://sparkspay.io  
 Explorer = http://expolorer.sparkspay.io  
-sparks repo =   https://github.com/sparkspay/sparks
-sentinel repo = https://github.com/sparkspay/sentinel  
+sparks repo =   https://github.com/sparkspay/sparks  
+sentinel repo = https://github.com/sparkspay/sentinel   
 binary download = https://github.com/sparkspay/sparks/releases
 
 ### REQUIREMENTS
