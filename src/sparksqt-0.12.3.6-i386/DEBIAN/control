@@ -1,0 +1,10 @@
+Package:sparksqt
+Version:0.12.3.6
+Section: custom
+Priority:optional
+Architecture:i386
+Depends:sparkscore
+Essential:no
+Installed-Size:2040
+Maintainer:m0r4k
+Description:sparkscore Qt client
