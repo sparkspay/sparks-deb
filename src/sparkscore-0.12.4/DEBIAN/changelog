@@ -1,8 +1,13 @@
 sparkscore (0.12.4) testing; urgency=medium
 
- * Release Guardian nodes
+ * Release Guardian Nodes (v1.0)
 
- -- z3r0 mor4k <mor4k@outlook.com>  Fri, 15 Mar 2019 16:05:00 +0200
+ [ Guardian Nodes ]
+ * they have a higher collateral - 25000 SPK
+ * they have a faster payout cycle (about 7% faster)
+
+
+ -- z3r0 mor4k <mor4k@outlook.com>  Mo, 01 Apr 2019 18:17:00 +0200
 
 sparkscore (0.12.3.5) testing; urgency=medium
 
