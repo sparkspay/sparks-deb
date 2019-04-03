@@ -1,0 +1,129 @@
+#!/bin/bash
+#################################################################
+### Setting up daemon service, sentinel and download boostrap ###
+#################################################################
+### VARS ###
+
+coin_name="sparks"
+coin_bin_dir="/usr/bin"
+coin_config_folder=".sparkscore"
+coin_config_file="sparks.conf"
+coin_daemon="sparksd"
+coin_cli="sparks-cli"
+
+#################################################################
+
+### Source debconf library. ###
+. /usr/share/debconf/confmodule
+set -e
+
+systemd_conf="/opt/$coin_name/etc/$coin_daemon.service.ex"
+
+#### Fetching configuration from debconf ###
+db_get coinpkg/systemd ; systemd=$RET
+db_get coinpkg/sysuser ; username=$RET ; groupname=$username
+db_get coinpkg/conf_rpcuser ; rpcuser=$RET
+db_get coinpkg/conf_rpcpwd ; rpcpwd=$RET
+db_get coinpkg/conf_rpcport ; rpcport=$RET
+db_get coinpkg/conf_extip ; extip=$RET
+
+coin_config_path=$(getent passwd $username | cut -d : -f6)"/$coin_config_folder"
+
+### SYSTEM SERVICE INSTALLATION ###
+
+if [ "$systemd" = "false" ]
+then
+  echo "daemon is not going to be installed!"
+else
+  sed -e "s:<COIN_PATH>:$coin_bin_dir:g" \
+    -e "s:<CONFIG_FOLDER>:$coin_config_path:g" \
+    -e "s:<CONFIG_FILE>:$coin_config_file:g" \
+    -e "s:<COIN_NAME>:$coin_name:g" \
+    -e "s:<COIN_DAEMON>:$coin_daemon:g" \
+    -e "s:<COIN_CLI>:$coin_cli:g" \
+    -e "s:<USER>:$username:g" \
+    -e "s:<GROUP>:$groupname:g" \
+    $systemd_conf > /opt/$coin_name/etc/$coin_daemon"_"$username.service
+
+  mv /opt/$coin_name/etc/$coin_daemon"_"$username.service /etc/systemd/system/$coin_daemon.service
+  systemctl daemon-reload
+
+  echo -e "systemd file installed to system - run by user [ $username ]"
+
+fi
+
+### USER FOLDER INSTALLATION ###
+std_conf="/opt/$coin_name/configs/$coin_config_file.ex"
+masternode_conf="/opt/$coin_name/configs/masternode.conf.ex"
+bootstrap_file="/opt/$coin_name/configs/bootstrap.dat"
+
+if [ ! -f "$coin_config_path/sparks.conf" ]
+then
+  mkdir -p $coin_config_path
+  sed -e "s:<RPCUSER>:$rpcuser:g" \
+    -e "s:<RPCPWD>:$rpcpwd:g" \
+    -e "s:<RPCPORT>:$rpcport:g" \
+    -e "s:<EXTIP>:$extip:g" \
+    $std_conf > $coin_config_path/$coin_config_file
+
+  echo -e "$coin_config_file file installed to users $coin_name directory [ $username ]"
+fi
+
+if [ ! -f $coin_config_path/masternode.conf ]
+then
+  cp $masternode_conf $coin_config_path/masternode.conf
+  echo -e "masternode copied to users $coin_name directory [ $username ]"
+fi
+
+### BOOTSTRAP INSTALLATION ###
+db_get coinpkg/git_bootstrap
+git_bootstrap=$RET
+
+if ([ "$git_bootstrap" = "true" ] && [ ! -f "$bootstrap_file" ])
+then
+  wget https://github.com/sparkspay/sparks/releases/download/bootstrap/bootstrap.dat -O $bootstrap_file
+fi
+
+if ([ "$git_boostrap" = "true" ] && [ -f "$bootstrap_file" ] && [ ! -f "$coin_config_path/bootstrap.dat" ])
+then
+  cp $bootstrap_file $coin_config_path
+  echo -e "bootstrap file installed to users $coin_name directory [ $username ]"
+fi
+
+### SENTINEL INSTALLATION ###
+db_get coinpkg/git_sentinel
+sentinel=$RET
+
+if ([ "$sentinel" = "true" ] && [ ! -d "$coin_config_path/sentinel" ])
+then
+  cd $coin_config_path
+  git clone https://github.com/sparkspay/sentinel.git
+  cd sentinel
+  virtualenv ./venv
+  ./venv/bin/pip install -r requirements.txt
+fi
+
+### CRONJOB INSTALLATION IF SENTINEL IS WANTED###
+if ([ "$sentinel" = "true" ] && [ -d "$coin_config_path/sentinel" ])
+then
+  ### first clean crontab from sentinel ###
+  crontab -l -u $username | sed "/$coin_name crontab start/,/$coin_name crontab end/d" | crontab -u $username -
+
+  ### new crontab for user ###
+  (crontab -l -u $username 2>/dev/null; echo \#\#\# $coin_name crontab start \#\#\#) | crontab -u $username -
+  (crontab -l -u $username 2>/dev/null; echo \* \* \* \* \* cd $coin_config_path/sentinel \&\& ./venv/bin/python bin/sentinel.py 2\>\&1 \>\> sentinel-cron.log) | crontab -u $username -
+  (crontab -l -u $username 2>/dev/null; echo \#\#\# $coin_name crontab end \#\#\#) | crontab -u $username -
+fi
+
+### chown for the generated files ###
+chown -R $username:$username $coin_config_path
+
+if [ -f "/etc/systemd/system/sparksd.service" ]
+then
+  systemctl start sparksd
+fi
+
+#db_unregister coinpkg/conf_rpcpwd
+db_set coinpkg/conf_rpcpwd true
+db_unregister coinpkg/msg_wrong_user
+

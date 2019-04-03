@@ -1,4 +1,4 @@
-# SparksCore 0.12.3.2  
+# SparksCore 0.12.3.5 - 0.12.4 
 Prevered System => debian 9, ubuntu 16.04 +  
 Min Sysspecs => 1 CPU, 1Ghz, 1GB RAM, 2GB SWAP, 20GB HDD  
 
@@ -35,15 +35,15 @@ root@server:~# systemctl enable sparksd
 
 
 ### MAINTAINER of SPARKS
-Maintainer = http://sparkscoin.io  
-Explorer = http://expolorer.sparkscoin.io  
-sparks repo =   https://github.com/SparksReborn/sparkspay.git  
-sentinel repo = https://github.com/SparksReborn/sentinel  
-binary download = https://github.com/SparksReborn/sparkspay/releases
+Maintainer = http://sparkspay.io  
+Explorer = http://expolorer.sparkspay.io  
+sparks repo =   https://github.com/sparkspay/sparks  
+sentinel repo = https://github.com/sparkspay/sentinel   
+binary download = https://github.com/sparkspay/sparks/releases
 
 ### REQUIREMENTS
 Download this GIT 
-git clone https://m0r4k@bitbucket.org/m0r4k/sparky.git
+git clone https://github.com/sparkspay/sparks-deb.git
 
 
 ## PreInstall process 
@@ -78,9 +78,11 @@ this works you are fine to continue.
 ## Installation process
 ```` bash
 root@server:~# apt install git ufw fail2ban
-root@server:~# git clone https://m0r4k@bitbucket.org/m0r4k/sparky.git
-root@server:~# cd sparky
-root@server:~# dpkg -i sparkscore-0.12.3.2-amd64.deb
+
+## download release from ##
+https://github.com/sparkspay/sparks-deb/releases
+
+root@server:~# dpkg -i sparkscore-<version>.deb
 
 #### ERRORS WILL APEAR DON'T PANIK -> -f install will FIX deps ####
 
