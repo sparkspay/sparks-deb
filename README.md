@@ -1,3 +1,9 @@
+
+## READ DOCS to INSTALL
+Installation = https://github.com/sparkspay/sparks-deb/blob/master/doc/INSTALL.md
+
+
+
 # Sparks debian (ubuntu) amd64 / x86 package build
 
 This is alpha stage build for Debian Package. Main goal is creating an easy to install
