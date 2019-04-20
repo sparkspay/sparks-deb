@@ -1,0 +1,47 @@
+sparksqt (0.12.4.2) testing; urgency=medium
+
+ * This version fixes a random crash which occurs on some nodes. Also, 
+   we decided to drop old nodes which generate a lot of noise on the network.
+
+   Please update and RESYNC (not reindex) your hot wallets and masternodes.
+   Masternodes need to be restarted using start-alias after update.
+
+   Due to the enforced new protocol, old nodes will not be able to connect to the network.*
+
+
+sparksqt (0.12.4.1) testing; urgency=medium
+
+* This version fixes problems with masternode starting / restarting, 
+  guardian nodes outputs and a few other things. The problems will 
+  start to disappear when the majority of nodes are updated. Meanwhile 
+  you might notice some discrepancies in the masternode list, as some of 
+  the older nodes don't recognize new nodes. When starting a new 
+  masternode, the start command may fail, until a path is found from 
+  your updated hot wallet to your new MN, which contains only updated 
+  nodes. (ie. a start command from a 0.12.4.1 node which is connected 
+  to a 0.12.4 client will not be broadcasted to other 0.12.4.1 peers).
+
+
+sparksqt (0.12.4) testing; urgency=medium
+
+ * Release Guardian Nodes (v1.0)
+
+ [ Guardian Nodes ]
+ * they have a higher collateral - 25000 SPK
+ * they have a faster payout cycle (about 7% faster)
+
+
+ -- z3r0 mor4k <mor4k@outlook.com>  Mo, 01 Apr 2019 18:17:00 +0200
+
+sparksqt (0.12.3.5) testing; urgency=medium
+
+ * Release / Update of banning old Masternodes ( < 0.12.3.4 )
+
+ -- z3r0 mor4k <mor4k@outlook.com>  Fri, 15 Feb 2019 18:54:43 +0200
+
+sparksqt (0.12.3.4) testing; urgency=medium
+
+ * Initial release / Update of Protocol
+
+ -- z3r0 mor4k <mor4k@outlook.com>  Fri, 18 Jun 2018 17:44:43 +0200
+
