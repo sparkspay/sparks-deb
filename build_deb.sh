@@ -3,6 +3,13 @@
 #dpkg-deb --build $1-i386
 ## download src
 
+mkdir -p src/bin
+mkdir -p src/build
+mkdir -p src/download
+
+rm -Rf src/bin/*
+rm -Rf src/build/*
+
 if [ $# -eq 0 ] 
 then 
 	echo "no Versionnumber given!!"
@@ -32,8 +39,6 @@ pushd ./src/download
 download $file_i686 $url_i686
 download $file_pi2 $url_pi2
 download $file_amd64 $url_amd64
-
-rm -Rf ../bin/*
 
 mkdir -p unzip/{i686,amd64,pi2}
 tar xvzf $file_i686 -C unzip/i686
