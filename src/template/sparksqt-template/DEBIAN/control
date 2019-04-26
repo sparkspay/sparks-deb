@@ -1,0 +1,10 @@
+Package: sparksqt
+Version: <version>
+Section: custom
+Priority: optional
+Architecture: amd64
+Depends: sparkscore
+Essential: no
+Installed-Size: <size>
+Maintainer: m0r4k
+Description: sparkscore QT client

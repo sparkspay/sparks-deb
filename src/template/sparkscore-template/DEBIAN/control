@@ -1,0 +1,10 @@
+Package: sparkscore
+Version: <version>
+Section: custom
+Priority: optional
+Architecture: <arch>
+Depends: curl, virtualenv, python-pip, cron, git
+Essential: no
+Installed-Size: <size>
+Maintainer: m0r4k
+Description: sparkscore client
