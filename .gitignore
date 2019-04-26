@@ -1,1 +1,4 @@
 *.deb
+#src/bin/*
+#src/build/*
+#src/download
