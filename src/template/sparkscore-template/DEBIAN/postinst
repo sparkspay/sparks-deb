@@ -79,22 +79,26 @@ fi
 db_get coinpkg/git_bootstrap
 git_bootstrap=$RET
 
-if ([ "$git_bootstrap" = "true" ] && [ ! -f "$bootstrap_file" ])
+if [[ "$git_bootstrap" = *"true"* && ! -f "$bootstrap_file" ]]
 then
   wget https://github.com/sparkspay/sparks/releases/download/bootstrap/bootstrap.dat -O $bootstrap_file
+else
+  echo "already downloaded"
 fi
 
-if ([ "$git_boostrap" = "true" ] && [ -f "$bootstrap_file" ] && [ ! -f "$coin_config_path/bootstrap.dat" ])
+if [[ ! -f "$coin_config_path/bootstrap.dat" && ! -f "coin_config_path/bootstrap_old.dat" && -f "$bootstrap_file" && "$git_bootstrap" = *"true"* ]]
 then
-  cp $bootstrap_file $coin_config_path
+  cp $bootstrap_file $coin_config_path/
   echo -e "bootstrap file installed to users $coin_name directory [ $username ]"
+else
+  echo "nothing todo"
 fi
 
 ### SENTINEL INSTALLATION ###
 db_get coinpkg/git_sentinel
 sentinel=$RET
 
-if ([ "$sentinel" = "true" ] && [ ! -d "$coin_config_path/sentinel" ])
+if [[ ! -d "$coin_config_path/sentinel" && "$sentinel" = *"true"* ]]
 then
   cd $coin_config_path
   git clone https://github.com/sparkspay/sentinel.git
@@ -104,7 +108,7 @@ then
 fi
 
 ### CRONJOB INSTALLATION IF SENTINEL IS WANTED###
-if ([ "$sentinel" = "true" ] && [ -d "$coin_config_path/sentinel" ])
+if [[ -d "$coin_config_path/sentinel" && "$sentinel" = *"true"* ]]
 then
   ### first clean crontab from sentinel ###
   crontab -l -u $username | sed "/$coin_name crontab start/,/$coin_name crontab end/d" | crontab -u $username -
@@ -118,10 +122,13 @@ fi
 ### chown for the generated files ###
 chown -R $username:$username $coin_config_path
 
-if [ -f "/etc/systemd/system/sparksd.service" ]
-then
-  systemctl start sparksd
-fi
+echo "AUTOSTART is turned off start sparksd with ..." 
+echo "systemctl start sparksd"
+
+#if [ -f "/etc/systemd/system/sparksd.service" ]
+#then
+#  systemctl start sparksd
+#fi
 
 #db_unregister coinpkg/conf_rpcpwd
 db_set coinpkg/conf_rpcpwd true

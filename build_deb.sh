@@ -6,9 +6,11 @@
 mkdir -p src/bin
 mkdir -p src/build
 mkdir -p src/download
+mkdir -p src/deb
 
 rm -Rf src/bin/*
 rm -Rf src/build/*
+rm -Rf src/deb/*
 
 if [ $# -eq 0 ] 
 then 

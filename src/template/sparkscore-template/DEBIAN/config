@@ -72,7 +72,7 @@ fi
 
 db_get coinpkg/conf_rpcpwd
 rpcpwd=$RET
-if [ ! $rpcpwd ]
+if [[ ! $rpcpwd || "$rpcpwd" = *"true"* ]]
 then
     rpcpwd=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
     db_set coinpkg/conf_rpcpwd $rpcpwd
