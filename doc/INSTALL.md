@@ -68,7 +68,7 @@ StrictModes yes
 root@server:~# systemctl restart sshd
 
 ````
-### ATTANTION
+### ATTENTION
 If you don't plan to configure a new user and you change the **PermitRootLogin**  
 in your ssh server to **no**, you'll never be able to login from ssh again!  
 So before you logout the server test your login with your new configured user. If 
